@@ -33,5 +33,7 @@ workspace/
 # macOS
 *.DS_Store
 
+.share
+run/
 libs/
 publish/
