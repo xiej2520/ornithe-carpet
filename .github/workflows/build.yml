@@ -9,21 +9,56 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 21
+          java-version: 25
 
       - uses: gradle/actions/setup-gradle@v4
 
       - name: Build
         run: ./gradlew build
 
+      # only the remapped mod jar: -all is the unremapped shadow jar and does not run outside dev
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: ornithe-carpet
-          path: build/libs/*.jar
+          path: |
+            build/libs/*.jar
+            !build/libs/*-all.jar
+            !build/libs/*-sources.jar
+          if-no-files-found: error
+
+  release:
+    needs: build
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: ornithe-carpet
+          path: dist
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Build #${{ github.run_number }}
+          target_commitish: ${{ github.sha }}
+          files: dist/*.jar
+          fail_on_unmatched_files: true
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
