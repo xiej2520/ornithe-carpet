@@ -21,13 +21,20 @@ public abstract class ServerPlayNetworkHandlerMixin {
     @Shadow
     public ServerPlayerEntity player;
 
-    @Inject(method = "handleCustomPayload", at = @At("HEAD"), cancellable = true)
+    @Inject(
+            method = "handleCustomPayload",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/network/packet/c2s/play/CustomPayloadC2SPacket;getChannel()Ljava/lang/String;"
+            ),
+            cancellable = true
+    )
     private void onCustomCarpetPayload(CustomPayloadC2SPacket packet, CallbackInfo ci) {
         if (CarpetClient.CHANNEL.equals(packet.getChannel())) {
             // We should force onto the main thread here
             // ServerNetworkHandler.handleData can possibly mutate data that isn't
             // thread safe, and also allows for client commands to be executed
-            PacketUtils.ensureOnSameThread(packet, (ServerPlayPacketHandler) this, this.player.getServerWorld());
+            // now is done by inject after vanilla's ensureOnSameThread()
             NbtCompound data = packet.getData().readNbtCompound();
             if (data != null) {
                 ServerNetworkHandler.onClientData(this.player, data);

@@ -19,7 +19,15 @@ public abstract class ClientPlayNetworkHandlerMixin {
     @Shadow
     private Minecraft minecraft;
 
-    @Inject(method = "handleCustomPayload", at = @At("HEAD"), cancellable = true)
+    @Inject(
+            method = "handleCustomPayload",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/network/PacketUtils;ensureOnSameThread(Lnet/minecraft/network/packet/Packet;Lnet/minecraft/network/handler/PacketHandler;Lnet/minecraft/util/BlockableEventLoop;)V",
+                    shift = At.Shift.AFTER
+            ),
+            cancellable = true
+    )
     private void onCustomCarpetPayload(CustomPayloadS2CPacket packet, CallbackInfo ci) {
         if (CarpetClient.CHANNEL.equals(packet.getChannel())) {
             NbtCompound data = packet.getData().readNbtCompound();

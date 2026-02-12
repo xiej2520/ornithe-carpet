@@ -20,7 +20,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.BiConsumer;
 
 public class ClientNetworkHandler {
-    // Khazerx carpet - wait for
     public static final Lock helloLock = new ReentrantLock();
     public static final Condition clientPlayerLoaded = helloLock.newCondition();
 
@@ -138,9 +137,12 @@ public class ClientNetworkHandler {
     }
 
     private static void waitForCarpetPlayer() {
-        if (CarpetClient.getPlayer() == null) {
-            helloLock.lock();
+        if (CarpetClient.getPlayer() != null) {
+            return;
         }
+
+        // only lock and wait when player is null
+        helloLock.lock();
         try {
             while (CarpetClient.getPlayer() == null) {
                 clientPlayerLoaded.await();
