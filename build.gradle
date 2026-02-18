@@ -2,7 +2,7 @@ plugins {
 	id 'maven-publish'
 	id 'fabric-loom' version '1.14-SNAPSHOT'
 	id 'ploceus' version '1.14-SNAPSHOT'
-	id "com.github.johnrengelman.shadow" version "8.1.1" // for mixin extra shadowJar
+	id "com.gradleup.shadow" version "9.3.1" // for mixin extra shadowJar
 }
 
 //sourceCompatibility = JavaVersion.VERSION_1_8
@@ -34,6 +34,10 @@ dependencies {
 //	nests ploceus.nests(project.nests_build) // remove this line if not using inner class patches
 
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+	// optifabric compat stuff
+//	modRuntimeOnly(files("libs/optifabric-2.3.6+b1.7.3-1.14.4.jar"))
+//	modRuntimeOnly(files("libs/OptiFine_1.12.2_HD_U_G5.jar"))
 
 	// shadow jar to include mixin extra for older fabric loader version
 	include(shadow(annotationProcessor("io.github.llamalad7:mixinextras-common:${project.mixin_extra_version}")))
@@ -94,5 +98,8 @@ publishing {
 		// Notice: This block does NOT have the same function as the block in the top level.
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
+		maven {
+			url "$projectDir/publish"
+		}
 	}
 }
