@@ -49,7 +49,7 @@ public @interface Rule {
      * any of the options
      * For enums, its always strict, same for booleans - no need to set that for them.
      */
-    boolean strict() default true;
+    boolean strict() default false;
 
     /**
      * If specified, the rule will automatically enable or disable
