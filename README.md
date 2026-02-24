@@ -12,6 +12,12 @@ No more "everyone forks a carpetmod112".
 
 Use this [template](https://github.com/CrazyHPi/ornithe-carpet-extension-template) to create your own carpet extension.
 
+### Maven
+
+You can get ornithe-carpet as dependency from:
+ - [My Maven](https://fastdl.crazyh.fun/maven): `https://fastdl.crazyh.fun/maven`
+ - [Jitpack](https://jitpack.io/#CrazyHPi/ornithe-carpet): `https://jitpack.io`
+
 ## Carpet Mod Settings
 
 TODO
@@ -20,7 +26,7 @@ TODO
 
 Contributions are welcome.
 
-See [Coontributing](./docs/Contributing.md)
+See [Contributing](./docs/Contributing.md)
 
 ## Build and Use
 
