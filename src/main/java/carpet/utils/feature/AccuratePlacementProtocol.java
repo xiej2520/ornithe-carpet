@@ -54,7 +54,7 @@ public class AccuratePlacementProtocol {
         Direction direction = Direction.byId(extra % 10);
         extra = extra / 10;
         Property<Direction> property = firstPropertyOfType(state, Direction.class);
-        if (property != null) {
+        if (property != null && property.values().contains(direction)) {
             state = state.set(property, direction);
         }
         Block block = state.getBlock();
