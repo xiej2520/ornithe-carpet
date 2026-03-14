@@ -21,7 +21,7 @@ public class CarpetSettings {
     @Rule(
             desc = "Sets the language for Carpet",
             categories = FEATURE,
-            options = {"en_us"},
+            options = {"en_us", "zh_cn"},
             validators = LanguageValidator.class
     )
     public static String language = "en_us";
