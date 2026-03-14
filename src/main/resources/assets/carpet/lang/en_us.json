@@ -21,6 +21,11 @@
   "carpet.rule.creativeNoClip.extra.5": "but requires some trapdoor magic to",
   "carpet.rule.creativeNoClip.extra.6": "allow the player to enter blocks",
 
+  "carpet.rule.missingTools.name": "Missing Tools",
+  "carpet.rule.missingTools.desc": "Pickaxe mines Piston and Glass faster, hoe mines Sponge, Hay Bale, Leaves, Nether Wart blocks faster and takes damage.",
+  "carpet.rule.missingTools.extra.0": "Pickaxes are effective on pistons in 1.16",
+  "carpet.rule.missingTools.extra.1": "Hoes are effective in 1.16",
+
   "carpet.rule.hopperCounters.name": "Hopper Counters",
   "carpet.rule.hopperCounters.desc": "hoppers pointing to wool will count items passing through them",
   "carpet.rule.hopperCounters.extra.0": "works only in SP, and will slow down players",
