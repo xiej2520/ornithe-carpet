@@ -4,6 +4,7 @@ import carpet.utils.Messenger;
 import carpet.utils.TranslationKeys;
 import carpet.utils.Translations;
 import net.minecraft.server.command.source.CommandSource;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import org.apache.commons.lang3.ClassUtils;
 import org.jetbrains.annotations.NotNull;
@@ -73,9 +74,9 @@ public class ParsedRule<T> implements CarpetRule<T>, Comparable<ParsedRule<?>> {
         this.field = field;
         this.name = field.getName();
         this.desc = rule.desc();
+        this.extraInfo = Arrays.asList(rule.extra());
+
         this.settingsManager = settingsManager;
-        String extraPrefix = String.format(TranslationKeys.RULE_EXTRA_PREFIX_PATTERN, settingsManager().identifier(), name());
-        this.extraInfo = getTranslationArray(extraPrefix);
         this.categories = Arrays.asList(rule.categories());
         this.isStrict = rule.strict();
         @SuppressWarnings("unchecked")
@@ -137,15 +138,22 @@ public class ParsedRule<T> implements CarpetRule<T>, Comparable<ParsedRule<?>> {
 
     @Override
     public String desc() {
-        return desc;
+        String descKey = String.format(TranslationKeys.RULE_DESC_PATTERN, settingsManager.identifier(), field.getName());
+        // English Fallback
+        return Translations.tr(descKey, this.desc);
     }
 
     @Override
     public List<Text> extraInfo() {
-        return getTranslationArray(String.format(TranslationKeys.RULE_EXTRA_PREFIX_PATTERN, settingsManager().identifier(), name()))
-                .stream()
-                .map(str -> Messenger.c("g " + str))
-                .collect(Collectors.toList());
+        String extraPrefix = String.format(TranslationKeys.RULE_EXTRA_PREFIX_PATTERN, settingsManager().identifier(), name());
+        // English fallback
+        List<String> extraLines = Translations.hasTranslation(extraPrefix + '0')
+                ? getTranslationArray(extraPrefix) : this.extraInfo;
+
+        return extraLines
+            .stream()
+            .map(str -> Messenger.c("g " + str))
+            .collect(Collectors.toList());
     }
 
     private List<String> getTranslationArray(String prefix) {
