@@ -11,7 +11,28 @@
   "carpet.category.scarpet": "scarpet",
   "carpet.category.client": "client",
 
+  "carpet.rule.creativeNoClip.name": "Creative No Clip",
+  "carpet.rule.creativeNoClip.desc": "Creative No Clip",
+  "carpet.rule.creativeNoClip.extra.0": "On servers it needs to be set on both ",
+  "carpet.rule.creativeNoClip.extra.1": "client and server to function properly.",
+  "carpet.rule.creativeNoClip.extra.2": "Has no effect when set on the server only",
+  "carpet.rule.creativeNoClip.extra.3": "Can allow to phase through walls",
+  "carpet.rule.creativeNoClip.extra.4": "if only set on the carpet client side",
+  "carpet.rule.creativeNoClip.extra.5": "but requires some trapdoor magic to",
+  "carpet.rule.creativeNoClip.extra.6": "allow the player to enter blocks",
 
+  "carpet.rule.hopperCounters.name": "Hopper Counters",
+  "carpet.rule.hopperCounters.desc": "hoppers pointing to wool will count items passing through them",
+  "carpet.rule.hopperCounters.extra.0": "works only in SP, and will slow down players",
+  "carpet.rule.hopperCounters.extra.1": "Enables /counter command, and actions while placing red and green carpets on wool blocks",
+  "carpet.rule.hopperCounters.extra.2": "Use /counter <color?> reset to reset the counter, and /counter <color?> to query",
+  "carpet.rule.hopperCounters.extra.3": "In survival, place green carpet on same color wool to query, red to reset the counters",
+  "carpet.rule.hopperCounters.extra.4": "Counters are global and shared between players, 16 channels available",
+  "carpet.rule.hopperCounters.extra.5": "Items counted are destroyed, count up to one stack per tick per hopper",
+
+  "carpet.rule.smoothClientAnimations.name": "Smooth Client Animations",
+  "carpet.rule.smoothClientAnimations.desc": "smooth client animations with low tps settings",
+  "carpet.rule.smoothClientAnimations.extra.0": "works only in SP, and will slow down players",
 
   "carpet.settings.command.browse_categories": "Browse categories",
   "carpet.settings.command.version": "version",
