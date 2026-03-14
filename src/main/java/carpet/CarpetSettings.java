@@ -409,6 +409,14 @@ public class CarpetSettings {
     @Rule(desc = "Mining blocks while sneaking and subscribed to /log carefulBreak will place them in your inventory ", categories = FEATURE)
     public static boolean carefulBreak = false;
 
+    @Rule(desc = "Pickaxe mines Piston, Glass, Beacon faster, hoe mines Sponge, Hay Bale, Leaves, Nether Wart blocks faster and takes damage.",
+        extra = {
+            "Pickaxes are effective on pistons in 1.16",
+            "Hoes are effective in 1.16",
+        },
+        categories = {SURVIVAL, FEATURE})
+    public static boolean missingTools = false;
+
     /*
        ____                                          _
       / ___|___  _ __ ___  _ __ ___   __ _ _ __   __| |

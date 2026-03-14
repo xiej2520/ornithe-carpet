@@ -63,6 +63,8 @@
     "rule.hopperCounter.HopperBlockEntityMixin",
     "rule.hopperCounter.ItemEntityMixin",
     "rule.maxEntityCollisions.LivingEntityMixin",
+    "rule.missingTools.HoeItemMixin",
+    "rule.missingTools.PickaxeItemMixin",
     "rule.movableBEs.MovingBlockEntityMixin",
     "rule.movableBEs.PistonBaseBlockMixin",
     "rule.movableBEs.WorldChunkMixin",
