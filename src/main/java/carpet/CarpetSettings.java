@@ -185,6 +185,12 @@ public class CarpetSettings {
     )
     public static boolean smoothClientAnimations = false;
 
+    @Rule(desc = "Remove client-side ghost blocks when instant mining",
+            extra = "Fixed in 1.13",
+            categories = BUGFIX
+    )
+    public static boolean miningGhostBlocksFix = false;
+
 	/*
 		 _____  _   _  _____
 		|_   _|| \ | ||_   _|
