@@ -396,6 +396,9 @@ public class CarpetSettings {
     @Rule(desc = "Fixes the elytra check similar to 1.15 where the player do not have to fall to deploy elytra anymore.", categories = BUGFIX)
     public static boolean elytraCheckFix;
 
+    @Rule(desc = "Fix client-side ghost blocks when instant mining, like in 1.13", categories = BUGFIX)
+    public static boolean miningGhostBlocksFix = false;
+
     @Rule(desc = "Prevents players from rubberbanding when moving too fast", categories = SURVIVAL)
     public static boolean antiCheatSpeed = false;
 
