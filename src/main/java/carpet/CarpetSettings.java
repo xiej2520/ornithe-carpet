@@ -10,6 +10,7 @@ import carpet.validators.ChunkMapCrashFixModifier;
 import carpet.validators.IFModifier;
 import carpet.validators.ITTModifier;
 import carpet.validators.RPModifier;
+import carpet.validators.ViewDistanceModifier;
 import net.minecraft.server.command.source.CommandSource;
 import org.jetbrains.annotations.Nullable;
 
@@ -305,6 +306,14 @@ public class CarpetSettings {
             categories = {CREATIVE, SURVIVAL, FEATURE}
     )
     public static boolean flippinCactus = false;
+
+    @Rule(desc = "Changes the view distance of the server.",
+            extra = "Set to 0 to not override the value in server settings",
+            categories = CREATIVE,
+            options = {"0", "10", "12", "16", "32", "64"},
+            validators = ViewDistanceModifier.class
+    )
+    public static int viewDistance = 0;
 
     /*
          _____                         _
