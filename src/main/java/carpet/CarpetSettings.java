@@ -394,7 +394,7 @@ public class CarpetSettings {
     public static boolean superSecretSetting = false;
 
     @Rule(desc = "Fixes the elytra check similar to 1.15 where the player do not have to fall to deploy elytra anymore.", categories = BUGFIX)
-    public static boolean elytraCheckFix;
+    public static boolean elytraCheckFix = false;
 
     @Rule(desc = "Fix client-side ghost blocks when instant mining, like in 1.13", categories = BUGFIX)
     public static boolean miningGhostBlocksFix = false;

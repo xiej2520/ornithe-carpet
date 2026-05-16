@@ -12,6 +12,11 @@ No more "everyone forks a carpetmod112".
 
 Use this [template](https://github.com/CrazyHPi/ornithe-carpet-extension-template) to create your own carpet extension.
 
+### Existing Extensions
+
+- [Haruhikage Addon (Threadstone)](https://github.com/Angarn/haruhikage-addon)
+- [Ornithe-Carpet-Extra](https://github.com/CrazyHPi/Ornithe-Carpet-Extra)
+
 ### Maven
 
 You can get ornithe-carpet as dependency from:
