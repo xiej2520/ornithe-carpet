@@ -559,12 +559,18 @@ public class SettingsManager {
                     return suggestMatching(args, list.toArray(new String[0]));
                 }
                 CarpetRule<?> rule = sm.rules.get(args[0]);
+                if (rule == null) {
+                    return Collections.emptyList();
+                }
                 return suggestMatching(args, rule.suggestions());
             }
 
             if (args.length == 3) {
                 if ("setDefault".equalsIgnoreCase(args[0])) {
                     CarpetRule<?> rule = sm.rules.get(args[1]);
+                    if (rule == null) {
+                        return Collections.emptyList();
+                    }
                     return suggestMatching(args, rule.suggestions());
                 }
             }
