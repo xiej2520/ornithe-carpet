@@ -298,10 +298,11 @@ public class CarpetSettings {
     @Rule(
             desc = "Players can flip and rotate blocks when holding cactus",
             extra = {
+                    "Placing block while holding cactus offhand will flip block rotation",
                     "Doesn't cause block updates when rotated/flipped",
                     "Applies to pistons, observers, droppers, repeaters, stairs, glazed terracotta etc...",
             },
-            categories = CREATIVE
+            categories = {CREATIVE, SURVIVAL, FEATURE}
     )
     public static boolean flippinCactus = false;
 

@@ -15,9 +15,9 @@ public class EntityMixin {
     @Shadow
     public float yaw;
 
-    @Inject(method = "getHorizontalFacing", at = @At(value = "RETURN"), cancellable = true)
+    @Inject(method = "getHorizontalFacing", at = @At(value = "HEAD"), cancellable = true)
     private void flipPlayerFacing(CallbackInfoReturnable<Direction> cir) {
-        if (BlockRotator.flippinEligibility((Entity) (Object) this)) {
+        if (BlockRotator.playerHoldsCactusOffHand((Entity) (Object) this)) {
             cir.setReturnValue(Direction.byIdHorizontal(MathHelper.floor((double) (this.yaw * 4.0F / 360.0F) + 0.5D) & 3).getOpposite());
         }
     }

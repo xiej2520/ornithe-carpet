@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 
 public class BlockRotator {
     public static boolean flipBlockWithCactus(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn, InteractionHand hand, Direction facing, float hitX, float hitY, float hitZ) {
-        if (!playerIn.abilities.canModifyWorld || !CarpetSettings.flippinCactus || !playerHoldsCactusMainhand(playerIn)) {
+        if (!playerIn.abilities.canModifyWorld || !CarpetSettings.flippinCactus || !playerHoldsCactusMainHand(playerIn)) {
             return false;
         }
         return flipBlock(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
@@ -29,7 +29,7 @@ public class BlockRotator {
         } else if (block instanceof DispenserBlock) {
             worldIn.setBlockState(pos, state.set(DispenserBlock.FACING, state.get(DispenserBlock.FACING).getOpposite()), 130);
         } else if (block instanceof PistonBaseBlock) {
-            if (!(state.get(PistonBaseBlock.EXTENDED).booleanValue()))
+            if (!(state.get(PistonBaseBlock.EXTENDED)))
                 worldIn.setBlockState(pos, state.set(FacingBlock.FACING, state.get(FacingBlock.FACING).getOpposite()), 130);
         } else if (block instanceof SlabBlock) {
             if (!((SlabBlock) block).isDouble()) {
@@ -76,19 +76,19 @@ public class BlockRotator {
         return true;
     }
 
-    private static boolean playerHoldsCactusMainhand(PlayerEntity playerIn) {
+    private static boolean playerHoldsCactusMainHand(PlayerEntity playerIn) {
         return (!playerIn.getMainHandStack().isEmpty()
-                && playerIn.getMainHandStack().getItem() instanceof BlockItem &&
-                ((BlockItem) (playerIn.getMainHandStack().getItem())).getBlock() == Blocks.CACTUS);
+                && playerIn.getMainHandStack().getItem() instanceof BlockItem
+                && ((BlockItem) (playerIn.getMainHandStack().getItem())).getBlock() == Blocks.CACTUS);
     }
 
-    public static boolean flippinEligibility(Entity entity) {
-        if (CarpetSettings.flippinCactus
-                && (entity instanceof PlayerEntity)) {
+    // used for flip block rotation when placing block with catus offhand
+    public static boolean playerHoldsCactusOffHand(Entity entity) {
+        if (CarpetSettings.flippinCactus && (entity instanceof PlayerEntity)) {
             PlayerEntity player = (PlayerEntity) entity;
             return (!player.getOffHandStack().isEmpty()
-                    && player.getOffHandStack().getItem() instanceof BlockItem &&
-                    ((BlockItem) (player.getOffHandStack().getItem())).getBlock() == Blocks.CACTUS);
+                    && player.getOffHandStack().getItem() instanceof BlockItem
+                    && ((BlockItem) (player.getOffHandStack().getItem())).getBlock() == Blocks.CACTUS);
         }
         return false;
     }

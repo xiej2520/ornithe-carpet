@@ -11,10 +11,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Direction.class)
 public class DirectionMixin {
-    @Inject(method = "nearest", at = @At(value = "RETURN"), cancellable = true)
-    private static void flipPlayerFacing(BlockPos pos, LivingEntity entity, CallbackInfoReturnable<Direction> cir) {
-        if (BlockRotator.flippinEligibility(entity)) {
-            cir.setReturnValue(cir.getReturnValue().getOpposite());
+    @Inject(method = "nearest", at = @At(value = "RETURN", ordinal = 0), cancellable = true)
+    private static void flipPlayerDOWN(BlockPos pos, LivingEntity entity, CallbackInfoReturnable<Direction> cir) {
+        if (BlockRotator.playerHoldsCactusOffHand(entity)) {
+            cir.setReturnValue(Direction.DOWN);
+        }
+    }
+
+    @Inject(method = "nearest", at = @At(value = "RETURN", ordinal = 1), cancellable = true)
+    private static void flipPlayerUP(BlockPos pos, LivingEntity entity, CallbackInfoReturnable<Direction> cir) {
+        if (BlockRotator.playerHoldsCactusOffHand(entity)) {
+            cir.setReturnValue(Direction.UP);
         }
     }
 }
