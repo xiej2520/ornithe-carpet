@@ -177,8 +177,8 @@ public class LoggerRegistry {
 
         // Subscribe all players who have no customized subscription list
         for (PlayerEntity player : server.getPlayerManager().getAll()) {
-            if (!hasSubscriptions(player.getName())) {
-                unsubscribePlayer(player.getName(), logName);
+            if (!hasSubscriptions(player.getName(), logName)) {
+                subscribePlayer(player.getName(), logName, option);
             }
         }
     }
@@ -191,9 +191,9 @@ public class LoggerRegistry {
             defaultSubscriptions.remove(logName);
             writeConf(server);
 
-            // Unsubscribe all players who have no customized subscription list
+            // Unsubscribe all players who have customized subscription list
             for (PlayerEntity player : server.getPlayerManager().getAll()) {
-                if (!hasSubscriptions(player.getName())) {
+                if (hasSubscriptions(player.getName(), logName)) {
                     unsubscribePlayer(player.getName(), logName);
                 }
             }
@@ -203,8 +203,8 @@ public class LoggerRegistry {
     /**
      * Checks if a player is actively subscribed to anything
      */
-    public static boolean hasSubscriptions(String playerName) {
-        return playerSubscriptions.containsKey(playerName);
+    public static boolean hasSubscriptions(String playerName, String logName) {
+        return playerSubscriptions.containsKey(playerName) && playerSubscriptions.get(playerName).containsKey(logName);
     }
 
     /**
