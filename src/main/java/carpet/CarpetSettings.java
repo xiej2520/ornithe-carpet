@@ -10,6 +10,7 @@ import carpet.validators.ChunkMapCrashFixModifier;
 import carpet.validators.IFModifier;
 import carpet.validators.ITTModifier;
 import carpet.validators.RPModifier;
+import carpet.validators.ViewDistanceModifier;
 import net.minecraft.server.command.source.CommandSource;
 import org.jetbrains.annotations.Nullable;
 
@@ -306,6 +307,14 @@ public class CarpetSettings {
     )
     public static boolean flippinCactus = false;
 
+    @Rule(desc = "Changes the view distance of the server.",
+            extra = "Set to 0 to not override the value in server settings",
+            categories = CREATIVE,
+            options = {"0", "10", "12", "16", "32", "64"},
+            validators = ViewDistanceModifier.class
+    )
+    public static int viewDistance = 0;
+
     /*
          _____                         _
         |_   _|__      __  ___   __ _ | | __
@@ -385,7 +394,10 @@ public class CarpetSettings {
     public static boolean superSecretSetting = false;
 
     @Rule(desc = "Fixes the elytra check similar to 1.15 where the player do not have to fall to deploy elytra anymore.", categories = BUGFIX)
-    public static boolean elytraCheckFix;
+    public static boolean elytraCheckFix = false;
+
+    @Rule(desc = "Fix client-side ghost blocks when instant mining, like in 1.13", categories = BUGFIX)
+    public static boolean miningGhostBlocksFix = false;
 
     @Rule(desc = "Prevents players from rubberbanding when moving too fast", categories = SURVIVAL)
     public static boolean antiCheatSpeed = false;
@@ -425,6 +437,14 @@ public class CarpetSettings {
 
     @Rule(desc = "Mining blocks while sneaking and subscribed to /log carefulBreak will place them in your inventory ", categories = FEATURE)
     public static boolean carefulBreak = false;
+
+    @Rule(desc = "Pickaxe mines Piston and Glass faster, hoe mines Sponge, Hay Bale, Leaves, Nether Wart blocks faster and takes damage.",
+        extra = {
+            "Pickaxes are effective on pistons in 1.16",
+            "Hoes are tool items in 1.16",
+        },
+        categories = {SURVIVAL, FEATURE})
+    public static boolean missingTools = false;
 
     /*
        ____                                          _
