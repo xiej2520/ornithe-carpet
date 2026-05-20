@@ -2,7 +2,7 @@ name: Dev pre-Release
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, ci]
     tags: [ 'v*' ]
 
 jobs:
