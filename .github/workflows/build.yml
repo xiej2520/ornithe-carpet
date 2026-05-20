@@ -2,7 +2,7 @@ name: Build on Push/PR
 
 on:
   push:
-    branches: [ main, ci ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
