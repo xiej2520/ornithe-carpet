@@ -17,6 +17,9 @@
 	"entrypoints": {
 		"preLaunch": [
       "carpet.CarpetServer::preLaunch"
+    ],
+    "server": [
+      "carpet.utils.CarpetRulePrinter"
     ]
 	},
 	"mixins": [

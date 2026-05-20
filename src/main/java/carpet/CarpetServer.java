@@ -1,14 +1,12 @@
 package carpet;
 
 import carpet.api.settings.SettingsManager;
-import carpet.commands.ChunkCommand;
-import carpet.commands.CounterCommand;
-import carpet.commands.LogCommand;
-import carpet.commands.TickCommand;
+import carpet.commands.*;
 import carpet.log.framework.HudController;
 import carpet.log.framework.LoggerRegistry;
 import carpet.network.ServerNetworkHandler;
 import com.llamalad7.mixinextras.MixinExtrasBootstrap;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.handler.CommandRegistry;
 import net.minecraft.server.entity.living.player.ServerPlayerEntity;
@@ -62,8 +60,6 @@ public class CarpetServer {
     }
 
     public static void tick(MinecraftServer server) {
-        // todo tickrate
-
         HudController.updateHud(server);
         extensions.forEach(e -> e.onTick(server));
     }
@@ -77,6 +73,10 @@ public class CarpetServer {
         registry.register(new LogCommand());
         registry.register(new ChunkCommand());
         registry.register(new TickCommand());
+
+        if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+            registry.register(new TestCommand());
+        }
 
         extensions.forEach(e -> e.registerCommands(registry));
     }

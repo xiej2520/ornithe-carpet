@@ -2,7 +2,7 @@
 
 This is an ornithe port of [carpetmod112](https://github.com/gnembon/carpetmod112) but with modern [fabric-carpet](https://github.com/gnembon/fabric-carpet) protocol and extension support.
 
-Code base is adapted from fabric-carpet, features are from carpetmod112.
+Code base is adapted from fabric-carpet, features are from carpetmod112 and others.
 
 ## Extensions
 
@@ -25,7 +25,7 @@ You can get ornithe-carpet as dependency from:
 
 ## Carpet Mod Settings
 
-TODO
+[Feature List](./docs/Current-Available-Settings.md).
 
 ## Contribution
 
