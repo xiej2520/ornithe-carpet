@@ -2,6 +2,7 @@ package carpet.patches;
 
 import carpet.CarpetSettings;
 import carpet.fakes.ServerPlayerEntityF;
+import carpet.fakes.ServerWorldF;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.block.entity.SkullBlockEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -116,9 +117,9 @@ public class ServerPlayerEntityFake extends ServerPlayerEntity {
         ServerPlayerEntityFake instance = new ServerPlayerEntityFake(server, worldIn, gameprofile, interactionManagerIn);
         server.getPlayerManager().load(instance);
         instance.setSetPosition(instance.x, instance.y, instance.z, instance.yaw, instance.pitch);
-//        worldIn.loginMinecartFix = true; // todo loginMinecartFix
+        ((ServerWorldF) worldIn).setLoginMinecartFix(true);
         server.getPlayerManager().onLogin(new ConnectionFake(PacketFlow.CLIENTBOUND), instance);
-//        worldIn.loginMinecartFix = false; // todo
+        ((ServerWorldF) worldIn).setLoginMinecartFix(false);
         if (instance.dimensionId != 0) //player was logged in in a different dimension
         {
             worldIn = server.getWorld(instance.dimensionId);

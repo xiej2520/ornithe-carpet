@@ -272,9 +272,9 @@ public class PlayerEntityActionPack {
             return;
         }
         Entity closest = entities.get(0);
-        double distance = squaredDistanceBetween(player, closest);
+        double distance = player.getSquaredDistanceTo(closest);
         for (Entity e : entities) {
-            double dd = squaredDistanceBetween(player, e);
+            double dd = player.getSquaredDistanceTo(e);
             if (dd < distance) {
                 distance = dd;
                 closest = e;
@@ -653,13 +653,6 @@ public class PlayerEntityActionPack {
             player.resetLastAttackedTicks();
             this.currentBlock = new BlockPos(-1, -1, -1);
         }
-    }
-
-    private static double squaredDistanceBetween(Entity a, Entity b) {
-        double dx = a.x - b.x;
-        double dy = a.y - b.y;
-        double dz = a.z - b.z;
-        return dx * dx + dy * dy + dz * dz;
     }
 
     private void setPlayerRotation(float yaw, float pitch) {
