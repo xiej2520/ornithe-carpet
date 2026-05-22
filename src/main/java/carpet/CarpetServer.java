@@ -76,6 +76,7 @@ public class CarpetServer {
         registry.register(new LogCommand());
         registry.register(new ChunkCommand());
         registry.register(new TickCommand());
+        registry.register(new PlayerCommand());
 
         if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
             registry.register(new TestCommand());
