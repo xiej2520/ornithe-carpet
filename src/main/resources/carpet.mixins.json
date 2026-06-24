@@ -9,6 +9,7 @@
     "accessor.ChunkHolderA",
     "accessor.ChunkMapA",
     "accessor.CustomPayloadC2SPacketA",
+    "accessor.PlayerHandActionC2SPacketA",
     "accessor.PlayerManagerA",
     "accessor.RedstoneWireBlockA",
     "accessor.ServerChunkCacheA",
