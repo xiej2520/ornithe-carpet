@@ -159,7 +159,7 @@ public class ServerPlayerEntityFake extends ServerPlayerEntity {
     @Override
     public void tick() {
         super.tick();
-        this.baseTick();
+        this.tickPlayer();
         this.playerMoved();
     }
 
