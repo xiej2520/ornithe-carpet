@@ -18,6 +18,8 @@ import net.minecraft.world.*;
 
 import java.util.List;
 
+import static carpet.utils.PacketHelper.playerHandActionC2SPacket;
+
 public class PlayerEntityActionPack {
     private ServerPlayerEntity player;
 
@@ -255,11 +257,11 @@ public class PlayerEntityActionPack {
     }
 
     public void swapHands() {
-        player.networkHandler.handlePlayerHandAction(new PlayerHandActionC2SPacket(PlayerHandActionC2SPacket.Action.SWAP_HELD_ITEMS, null, null));
+        player.networkHandler.handlePlayerHandAction(playerHandActionC2SPacket(PlayerHandActionC2SPacket.Action.SWAP_HELD_ITEMS, null, null));
     }
 
     public void dropItem() {
-        player.networkHandler.handlePlayerHandAction(new PlayerHandActionC2SPacket(PlayerHandActionC2SPacket.Action.DROP_ITEM, null, null));
+        player.networkHandler.handlePlayerHandAction(playerHandActionC2SPacket(PlayerHandActionC2SPacket.Action.DROP_ITEM, null, null));
     }
 
     public void mount() {
@@ -510,16 +512,16 @@ public class PlayerEntityActionPack {
             return false;
         } else {
             if (player.interactionManager.getGameMode() == GameMode.CREATIVE) {
-                player.networkHandler.handlePlayerHandAction(new PlayerHandActionC2SPacket(PlayerHandActionC2SPacket.Action.START_DESTROY_BLOCK, loc, face));
+                player.networkHandler.handlePlayerHandAction(playerHandActionC2SPacket(PlayerHandActionC2SPacket.Action.START_DESTROY_BLOCK, loc, face));
                 clickBlockCreative(world, loc, face);
                 this.blockHitDelay = 5;
             } else if (!this.isHittingBlock || !(currentBlock.equals(loc))) {
                 if (this.isHittingBlock) {
-                    player.networkHandler.handlePlayerHandAction(new PlayerHandActionC2SPacket(PlayerHandActionC2SPacket.Action.ABORT_DESTROY_BLOCK, this.currentBlock, face));
+                    player.networkHandler.handlePlayerHandAction(playerHandActionC2SPacket(PlayerHandActionC2SPacket.Action.ABORT_DESTROY_BLOCK, this.currentBlock, face));
                 }
 
                 BlockState blockstate = world.getBlockState(loc);
-                player.networkHandler.handlePlayerHandAction(new PlayerHandActionC2SPacket(PlayerHandActionC2SPacket.Action.START_DESTROY_BLOCK, loc, face));
+                player.networkHandler.handlePlayerHandAction(playerHandActionC2SPacket(PlayerHandActionC2SPacket.Action.START_DESTROY_BLOCK, loc, face));
                 boolean flag = blockstate.getMaterial() != Material.AIR;
 
                 if (flag && this.curBlockDamageMP == 0.0F) {
@@ -555,7 +557,7 @@ public class PlayerEntityActionPack {
         if (player.interactionManager.getGameMode() == GameMode.CREATIVE && world.getWorldBorder().contains(posBlock)) {
             this.blockHitDelay = 5;
             player.networkHandler.handlePlayerHandAction(
-                    new PlayerHandActionC2SPacket(PlayerHandActionC2SPacket.Action.START_DESTROY_BLOCK, posBlock, directionFacing));
+                    playerHandActionC2SPacket(PlayerHandActionC2SPacket.Action.START_DESTROY_BLOCK, posBlock, directionFacing));
             clickBlockCreative(world, posBlock, directionFacing);
             return true;
         } else if (posBlock.equals(currentBlock)) {
@@ -569,7 +571,7 @@ public class PlayerEntityActionPack {
 
                 if (this.curBlockDamageMP >= 1.0F) {
                     this.isHittingBlock = false;
-                    player.networkHandler.handlePlayerHandAction(new PlayerHandActionC2SPacket(PlayerHandActionC2SPacket.Action.STOP_DESTROY_BLOCK, posBlock, directionFacing));
+                    player.networkHandler.handlePlayerHandAction(playerHandActionC2SPacket(PlayerHandActionC2SPacket.Action.STOP_DESTROY_BLOCK, posBlock, directionFacing));
                     this.onPlayerDestroyBlock(posBlock);
                     this.curBlockDamageMP = 0.0F;
                     this.blockHitDelay = 5;
@@ -646,7 +648,7 @@ public class PlayerEntityActionPack {
 
     public void resetBlockRemoving() {
         if (this.isHittingBlock) {
-            player.networkHandler.handlePlayerHandAction(new PlayerHandActionC2SPacket(PlayerHandActionC2SPacket.Action.ABORT_DESTROY_BLOCK, this.currentBlock, Direction.DOWN));
+            player.networkHandler.handlePlayerHandAction(playerHandActionC2SPacket(PlayerHandActionC2SPacket.Action.ABORT_DESTROY_BLOCK, this.currentBlock, Direction.DOWN));
             this.isHittingBlock = false;
             this.curBlockDamageMP = 0.0F;
             player.getSourceWorld().updateBlockMiningProgress(player.getNetworkId(), this.currentBlock, -1);
