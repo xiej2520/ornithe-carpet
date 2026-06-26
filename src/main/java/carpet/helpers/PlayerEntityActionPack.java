@@ -9,6 +9,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.living.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.network.packet.c2s.play.PlayerHandActionC2SPacket;
@@ -260,8 +262,23 @@ public class PlayerEntityActionPack {
         player.networkHandler.handlePlayerHandAction(playerHandActionC2SPacket(PlayerHandActionC2SPacket.Action.SWAP_HELD_ITEMS, null, null));
     }
 
-    public void dropItem() {
-        player.networkHandler.handlePlayerHandAction(playerHandActionC2SPacket(PlayerHandActionC2SPacket.Action.DROP_ITEM, null, null));
+    public void dropItem(int slot, boolean dropAll) {
+        PlayerInventory inv = player.inventory;
+        if (slot == -2) { // all
+            for (int i = inv.getSize(); i >= 0; i--) {
+                if (!inv.getStack(i).isEmpty()) {
+                    player.dropItem(inv.removeStack(i, dropAll ? inv.getStack(i).getSize() : 1), false, true);
+                }
+            }
+        } else if (slot == -1) { // mainhand == inv.selectedSlot, but just send packet anyway
+            if (dropAll) {
+                player.networkHandler.handlePlayerHandAction(playerHandActionC2SPacket(PlayerHandActionC2SPacket.Action.DROP_ALL_ITEMS, null, null));
+            } else {
+                player.networkHandler.handlePlayerHandAction(playerHandActionC2SPacket(PlayerHandActionC2SPacket.Action.DROP_ITEM, null, null));
+            }
+        } else {
+            player.dropItem(inv.removeStack(slot, dropAll ? inv.getStack(slot).getSize() : 1), false, true);
+        }
     }
 
     public void mount() {

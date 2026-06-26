@@ -24,7 +24,7 @@ public class PlayerCommand extends CarpetAbstractCommand {
 
     @Override
     public String getUsage(CommandSource source) {
-        return "player <spawn|kill|stop|drop|swapHands|mount|dismount> <player_name>  OR /player <use|attack|jump> <player_name> <once|continuous|interval.. ticks>";
+        return "player <spawn|kill|stop|drop|dropStack|swapHands|mount|dismount> <player_name>  OR /player <use|attack|jump> <player_name> <once|continuous|interval.. ticks>";
     }
 
     @Override
@@ -91,7 +91,39 @@ public class PlayerCommand extends CarpetAbstractCommand {
             return;
         }
         if ("drop".equalsIgnoreCase(action)) {
-            ((ServerPlayerEntityF) player).getActionPack().dropItem();
+            int slot = -1;
+            if (args.length > 2) {
+                switch (args[2]) {
+                    case "all": slot = -2; break;
+                    case "mainhand": slot = -1; break;
+                    case "offhand": slot = 40; break;
+                    case "slot": {
+                        if (args.length > 3) {
+                            slot = parseInt(args[3], 0, 40);
+                        }
+                        break;
+                    }
+                }
+            }
+            ((ServerPlayerEntityF) player).getActionPack().dropItem(slot, false);
+            return;
+        }
+        if ("dropStack".equalsIgnoreCase(action)) {
+            int slot = -1;
+            if (args.length > 2) {
+                switch (args[2]) {
+                    case "all": slot = -2; break;
+                    case "mainhand": slot = -1; break;
+                    case "offhand": slot = 40; break;
+                    case "slot": {
+                        if (args.length > 3) {
+                            slot = parseInt(args[3], 0, 40);
+                        }
+                        break;
+                    }
+                }
+            }
+            ((ServerPlayerEntityF) player).getActionPack().dropItem(slot, true);
             return;
         }
         if ("swapHands".equalsIgnoreCase(action)) {
@@ -269,11 +301,14 @@ public class PlayerCommand extends CarpetAbstractCommand {
         if (args.length == 2) {
             return suggestMatching(args,
                     "spawn", "kill", "attack", "use", "jump", "stop", "shadow",
-                    "swapHands", "drop", "mount", "dismount",
+                    "swapHands", "drop", "dropStack", "mount", "dismount",
                     "move", "sneak", "sprint", "look", "despawn", "respawn");
         }
         if (args.length == 3 && (args[1].matches("^(?:use|attack|jump)$"))) {
             return suggestMatching(args, "once", "continuous", "interval");
+        }
+        if (args.length == 3 && args[1].matches("^(?:drop|dropStack)$")) {
+            return suggestMatching(args, "all", "mainhand", "offhand", "slot");
         }
         if (args.length == 4 && (args[1].equalsIgnoreCase("interval"))) {
             return suggestMatching(args, "20");
