@@ -12,6 +12,7 @@
     "accessor.PlayerHandActionC2SPacketA",
     "accessor.PlayerManagerA",
     "accessor.RedstoneWireBlockA",
+    "accessor.SelectSlotC2SPacketA",
     "accessor.ServerChunkCacheA",
     "accessor.ServerWorldA",
     "accessor.TabListS2CPacketA",
