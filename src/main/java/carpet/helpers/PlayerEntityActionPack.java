@@ -1,6 +1,7 @@
 package carpet.helpers;
 
 import carpet.SharedConstants;
+import carpet.mixins.accessor.SelectSlotC2SPacketA;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CommandBlock;
@@ -10,10 +11,10 @@ import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.living.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.network.packet.c2s.play.PlayerHandActionC2SPacket;
+import net.minecraft.network.packet.c2s.play.SelectSlotC2SPacket;
 import net.minecraft.server.entity.living.player.ServerPlayerEntity;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
@@ -192,27 +193,12 @@ public class PlayerEntityActionPack {
 
     public boolean look(String where) {
         switch (where) {
-            case "north":
-                look(180.0f, 0.0F);
-                return true;
-            case "south":
-                look(0.0F, 0.0F);
-                return true;
-            case "east":
-                look(-90.0F, 0.0F);
-                return true;
-            case "west":
-                look(90.0F, 0.0F);
-                return true;
-            case "up":
-                look(player.yaw, -90.0F);
-                return true;
-            case "down":
-                look(player.yaw, 90.0F);
-                return true;
-            case "left":
-            case "right":
-                return turn(where);
+            case "north": look(180.0f, 0.0F); return true;
+            case "south": look(0.0F, 0.0F); return true;
+            case "east": look(-90.0F, 0.0F); return true;
+            case "west": look(90.0F, 0.0F); return true;
+            case "up": look(player.yaw, -90.0F); return true;
+            case "down": look(player.yaw, 90.0F); return true;
         }
         return false;
     }
@@ -224,18 +210,9 @@ public class PlayerEntityActionPack {
 
     public boolean turn(String where) {
         switch (where) {
-            case "left":
-                turn(-90.0F, 0.0F);
-                return true;
-            case "right":
-                turn(90.0F, 0.0F);
-                return true;
-            case "up":
-                turn(0.0F, -5.0F);
-                return true;
-            case "down":
-                turn(0.0F, 5.0F);
-                return true;
+            case "left": turn(-90.0F, 0.0F); return true;
+            case "right": turn(90.0F, 0.0F); return true;
+            case "back": turn(180.0F, 0.0F); return true;
         }
         return false;
     }
@@ -260,6 +237,12 @@ public class PlayerEntityActionPack {
 
     public void swapHands() {
         player.networkHandler.handlePlayerHandAction(playerHandActionC2SPacket(PlayerHandActionC2SPacket.Action.SWAP_HELD_ITEMS, null, null));
+    }
+
+    public void setSlot(int slot) {
+        SelectSlotC2SPacket packet = new SelectSlotC2SPacket();
+        ((SelectSlotC2SPacketA) packet).setSlot(slot - 1);
+        player.networkHandler.handleSelectSlot(packet);
     }
 
     public void dropItem(int slot, boolean dropAll) {

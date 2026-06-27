@@ -130,6 +130,15 @@ public class PlayerCommand extends CarpetAbstractCommand {
             ((ServerPlayerEntityF) player).getActionPack().swapHands();
             return;
         }
+        if ("hotbar".equalsIgnoreCase(action)) {
+            if (args.length > 2) {
+                int slot = parseInt(args[2], 1, 9);
+                ((ServerPlayerEntityF) player).getActionPack().setSlot(slot);
+            } else {
+                throw new IncorrectUsageException("/player " + playerName + " hotbar <1-9>");
+            }
+            return;
+        }
         if ("spawn".equalsIgnoreCase(action)) {
             if (player != null) {
                 throw new IncorrectUsageException("player " + playerName + " already exists");
@@ -206,7 +215,7 @@ public class PlayerCommand extends CarpetAbstractCommand {
         }
 
         //FP only
-        if (action.matches("^(?:move|sneak|sprint|look)$")) {
+        if (action.matches("^(?:move|sneak|sprint|unsneak|unsprint|look|turn)$")) {
             if (player != null && !(player instanceof ServerPlayerEntityFake))
                 throw new IncorrectUsageException(action + " action could only be run on existing fake players");
 
@@ -223,11 +232,11 @@ public class PlayerCommand extends CarpetAbstractCommand {
                     return;
                 }
                 if ("left".equalsIgnoreCase(where)) {
-                    ((ServerPlayerEntityF) player).getActionPack().setStrafing(-1.0F);
+                    ((ServerPlayerEntityF) player).getActionPack().setStrafing(1.0F);
                     return;
                 }
                 if ("right".equalsIgnoreCase(where)) {
-                    ((ServerPlayerEntityF) player).getActionPack().setStrafing(1.0F);
+                    ((ServerPlayerEntityF) player).getActionPack().setStrafing(-1.0F);
                     return;
                 }
                 throw new IncorrectUsageException("/player " + playerName + " go <forward|backward|left|right>");
@@ -236,8 +245,16 @@ public class PlayerCommand extends CarpetAbstractCommand {
                 ((ServerPlayerEntityF) player).getActionPack().setSneaking(true);
                 return;
             }
+            if ("unsneak".equalsIgnoreCase(action)) {
+                ((ServerPlayerEntityF) player).getActionPack().setSneaking(false);
+                return;
+            }
             if ("sprint".equalsIgnoreCase(action)) {
                 ((ServerPlayerEntityF) player).getActionPack().setSprinting(true);
+                return;
+            }
+            if ("unsprint".equalsIgnoreCase(action)) {
+                ((ServerPlayerEntityF) player).getActionPack().setSprinting(false);
                 return;
             }
             if ("look".equalsIgnoreCase(action)) {
@@ -253,6 +270,23 @@ public class PlayerCommand extends CarpetAbstractCommand {
                     ((ServerPlayerEntityF) player).getActionPack().look(yawVal, pitchVal);
                 } else {
                     throw new IncorrectUsageException("/player " + playerName + " look <north|south|east|west|up|down| yaw .. pitch>");
+                }
+                return;
+            }
+            if ("turn".equalsIgnoreCase(action)) {
+                if (args.length < 3) {
+                    throw new IncorrectUsageException("/player " + playerName + " turn <left|right|back| yaw .. pitch>");
+                }
+                if (args[2].charAt(0) >= 'A' && args[2].charAt(0) <= 'z') {
+                    if (!((ServerPlayerEntityF) player).getActionPack().turn(args[2].toLowerCase())) {
+                        throw new IncorrectUsageException("turn direction is left, right, or back");
+                    }
+                } else if (args.length > 3) {
+                    float yawVal = (float) parseTeleportCoordinate(player.yaw, args[2], false).getCoordinate();
+                    float pitchVal = (float) parseTeleportCoordinate(player.pitch, args[3], false).getCoordinate();
+                    ((ServerPlayerEntityF) player).getActionPack().turn(yawVal, pitchVal);
+                } else {
+                    throw new IncorrectUsageException("/player " + playerName + " turn <left|right|back| yaw .. pitch>");
                 }
                 return;
             }
@@ -301,8 +335,9 @@ public class PlayerCommand extends CarpetAbstractCommand {
         if (args.length == 2) {
             return suggestMatching(args,
                     "spawn", "kill", "attack", "use", "jump", "stop", "shadow",
-                    "swapHands", "drop", "dropStack", "mount", "dismount",
-                    "move", "sneak", "sprint", "look", "despawn", "respawn");
+                    "swapHands", "drop", "dropStack", "hotbar", "mount", "dismount",
+                    "move", "sneak", "sprint", "unsneak", "unsprint", "look", "turn",
+                    "despawn", "respawn");
         }
         if (args.length == 3 && (args[1].matches("^(?:use|attack|jump)$"))) {
             return suggestMatching(args, "once", "continuous", "interval");
@@ -310,14 +345,17 @@ public class PlayerCommand extends CarpetAbstractCommand {
         if (args.length == 3 && args[1].matches("^(?:drop|dropStack)$")) {
             return suggestMatching(args, "all", "mainhand", "offhand", "slot");
         }
-        if (args.length == 4 && (args[1].equalsIgnoreCase("interval"))) {
+        if (args.length == 4 && (args[2].equalsIgnoreCase("interval"))) {
             return suggestMatching(args, "20");
         }
         if (args.length == 3 && (args[1].equalsIgnoreCase("move"))) {
             return suggestMatching(args, "left", "right", "forward", "backward");
         }
         if (args.length == 3 && (args[1].equalsIgnoreCase("look"))) {
-            return suggestMatching(args, "left", "right", "north", "south", "east", "west", "up", "down");
+            return suggestMatching(args, "north", "south", "east", "west", "up", "down");
+        }
+        if (args.length == 3 && (args[1].equalsIgnoreCase("turn"))) {
+            return suggestMatching(args, "left", "right", "back", "rotation");
         }
         if (args.length > 2 && (args[1].equalsIgnoreCase("spawn"))) {
             if (args.length <= 5) {
