@@ -355,7 +355,7 @@ public class PlayerCommand extends CarpetAbstractCommand {
             return suggestMatching(args, "north", "south", "east", "west", "up", "down");
         }
         if (args.length == 3 && (args[1].equalsIgnoreCase("turn"))) {
-            return suggestMatching(args, "left", "right", "back", "rotation");
+            return suggestMatching(args, "left", "right", "back");
         }
         if (args.length > 2 && (args[1].equalsIgnoreCase("spawn"))) {
             if (args.length <= 5) {
