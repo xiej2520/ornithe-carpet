@@ -16,6 +16,8 @@ Use this [template](https://github.com/CrazyHPi/ornithe-carpet-extension-templat
 
 - [Haruhikage Addon (Threadstone)](https://github.com/Angarn/haruhikage-addon)
 - [Ornithe-Carpet-Extra](https://github.com/CrazyHPi/Ornithe-Carpet-Extra)
+- [CarpetClientAddon Server Support](https://github.com/RoyanAB/CarpetClientAddon/tree/main)
+- [CarpetClientAddon Client (clientgen1 branch)](https://github.com/RoyanAB/CarpetClientAddon/tree/clientgen1)
 
 ### Maven
 
